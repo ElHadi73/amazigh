@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}
+	Dectionnaire
+{% endblock %}
+{% block style %}
+{% include 'style.html' %}
+{% endblock %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script type='text/javascript' src='script.js'></script>
+    <div class="box">
+        <form id="GET" action="">
+            <div class="sel">
+                <select name="input_lang" class="_lng s">
+			<option value="Amazigh" onclick="$('.outlang').show();">Amazight</option>
+                	{% for i in langs %}
+			<option value="{{ i.1 }}" class="inolangs" onclick="$('.outlang').hide();">{{ i.0.title }}</option>
+			{% endfor %}
+            	</select>
+                <select name="output_lang" class="_lng s">
+                	<option value="Amazigh" onclick="$('.inolangs').show();">Amazigh</option>
+			{% for i in langs %}
+			<option value="{{ i.1 }}" class="outlang" onclick="$('.inolangs').hide();">{{ i.0.title }}</option>
+			{% endfor %}
+            	</select>
+            </div>
+
+            <div class="sel">
+		    <input type="text" id="fname" class="_lng" name="search_text" placeholder={{ placeholder }}>
+            </div>
+            <input type="submit" value="Traduire" class="sub _lng bt">
+        </form>
+    </div>
+    <div class="content ">
+	    <h1>{{ tit }}</h1>
+	{% if output.3 == 2 %}
+	{% include "content.html" %}
+	{% elif output.3 == 1 %}
+	{% include "content2.html" %}
+	{% else %}
+	{% include "content3.html" %}
+	{% endif %}
+    </div>
+{% endblock %}
