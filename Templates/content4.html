@@ -1,0 +1,6 @@
+{%for i in output.0 %}
+<a href="/{{ output.2 }}/word/{{ i }}"><h3>{{ i }}</h3></a>
+{% endfor %}
+{% if output.1 == 0 %}
+<p>no machine words</p>
+{% endif %}

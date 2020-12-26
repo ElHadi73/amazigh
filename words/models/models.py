@@ -39,12 +39,21 @@ def search_result(inlang,outlang,userinput):
         if l=="False":
             return "False"
         elif l==0:
-            obj=Word.objects.get(in_tifinigh=userinput)
+            try:
+                obj=Word.objects.get(in_tifinigh=userinput)
+            except:
+                return [[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in Word.objects.filter(in_tifinigh__contains=userinput)]]
         elif l==1:
-            obj=Word.objects.get(in_latine=userinput)
+            try:
+                obj=Word.objects.get(in_latine=userinput)
+            except:
+                return [[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in Word.objects.filter(in_latine__contains=userinput)]]
         elif l==2:
-            obj=Word.objects.get(in_arabic=userinput)
-            
+            try:
+                obj=Word.objects.get(in_arabic=userinput)
+            except:
+                return [[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in Word.objects.filter(in_arabic__contains=userinput)]]
+
         typ=obj.type_id
         many_list=[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in obj.many_means.all()]
         oppo_list=[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in obj.opst_words.all()]
@@ -57,16 +66,29 @@ def search_result(inlang,outlang,userinput):
         if l=="False":
             return "False"
         elif l==0:
-            obj=Word.objects.get(in_tifinigh=userinput)
+            try:
+                obj=Word.objects.get(in_tifinigh=userinput)
+            except:
+                return [[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in Word.objects.filter(in_tifinigh__contains=userinput)]]
         elif l==1:
-            obj=Word.objects.get(in_latine=userinput)
+            try:
+                obj=Word.objects.get(in_latine=userinput)
+            except:
+                return [[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in Word.objects.filter(in_latine__contains=userinput)]]
         elif l==2:
-            obj=Word.objects.get(in_arabic=userinput)
+            try:
+                obj=Word.objects.get(in_arabic=userinput)
+            except:
+                return [[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in Word.objects.filter(in_arabic__contains=userinput)]]
+
         typ=obj.type_id.types_translations_set.get(lang_id=outlang).translation
         many_list=[[i.traduction,i.Description] for i in obj.translations_set.all().filter(lang_id=outlang)]
         return [many_list,None,typ,2]
     elif outlang=="Amazigh":
-        obj=translations.objects.get(lang_id=inlang,traduction=userinput).ama_words.first()
-        typ=obj.type_id
-        many_list=[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in obj.many_means.all()]
+        try:
+            obj=translations.objects.get(lang_id=inlang,traduction=userinput).ama_words.first()
+            many_list=[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in obj.many_means.all()]
+        except:
+            obj=translations.objects.filter(lang_id=inlang,traduction__contains=userinput)
+            return [[i.traduction for i in obj],obj.count(),inlang,3]
         return [many_list[:]]

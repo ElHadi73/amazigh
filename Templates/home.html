@@ -37,8 +37,12 @@
 	{% include "content.html" %}
 	{% elif output.3 == 1 %}
 	{% include "content2.html" %}
+	{% elif output.3 == 3 %}
+	{% include "content4.html" %} 
 	{% else %}
 	{% include "content3.html" %}
 	{% endif %}
     </div>
+    {{ output }}
+    {{ langs }}
 {% endblock %}

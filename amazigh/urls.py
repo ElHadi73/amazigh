@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.home),
     path('word/<str:word>/',views.home),
+    path('<int:input_lang>/word/<str:word>/',views.home2),
 ]
