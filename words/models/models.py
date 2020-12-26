@@ -53,14 +53,6 @@ def search_result(inlang,outlang,userinput):
                 obj=Word.objects.get(in_arabic=userinput)
             except:
                 return [[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in Word.objects.filter(in_arabic__contains=userinput)]]
-
-        typ=obj.type_id
-        many_list=[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in obj.many_means.all()]
-        oppo_list=[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in obj.opst_words.all()]
-        racine=[obj.racine_id.in_tifinigh,obj.racine_id.in_latine,obj.racine_id.in_arabic]
-        return [[obj.in_arabic,typ.in_arabic]    ,
-                [obj.in_latine,typ.in_latine]    ,
-                [obj.in_tifinigh,typ.in_tifinigh],1,many_list[:],oppo_list[:],obj.Definition,racine]
     elif inlang=="Amazigh":
         l=detect_ama(userinput)
         if l=="False":
