@@ -34,7 +34,7 @@ def detect_ama(ama):
     else:
         return "False"
 def search_result(inlang,outlang,userinput):
-    if inlang=="Amazigh" and outlang=="Amazigh":
+    if inlang=="Amazigh":
         l=detect_ama(userinput)
         if l=="False":
             return "False"
@@ -53,29 +53,24 @@ def search_result(inlang,outlang,userinput):
                 obj=Word.objects.get(in_arabic=userinput)
             except:
                 return [[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in Word.objects.filter(in_arabic__contains=userinput)]]
-    elif inlang=="Amazigh":
-        l=detect_ama(userinput)
-        if l=="False":
-            return "False"
-        elif l==0:
+        if outlang=="Amazigh":
             try:
-                obj=Word.objects.get(in_tifinigh=userinput)
+                typ=[obj.type_id.in_arabic,obj.type_id.in_latine,obj.type_id.in_tifinigh]
             except:
-                return [[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in Word.objects.filter(in_tifinigh__contains=userinput)]]
-        elif l==1:
+                typ=[None,None,None]
+            many_list=[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in obj.many_means.all()]
+            oppo_list=[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in obj.opst_words.all()]
             try:
-                obj=Word.objects.get(in_latine=userinput)
+                racine=[obj.racine_id.in_tifinigh,obj.racine_id.in_latine,obj.racine_id.in_arabic]
             except:
-                return [[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in Word.objects.filter(in_latine__contains=userinput)]]
-        elif l==2:
-            try:
-                obj=Word.objects.get(in_arabic=userinput)
-            except:
-                return [[[i.in_arabic,i.in_latine,i.in_tifinigh] for i in Word.objects.filter(in_arabic__contains=userinput)]]
-
-        typ=obj.type_id.types_translations_set.get(lang_id=outlang).translation
-        many_list=[[i.traduction,i.Description] for i in obj.translations_set.all().filter(lang_id=outlang)]
-        return [many_list,None,typ,2]
+                racine=[]
+            return [[obj.in_arabic,typ[0]]    ,
+                    [obj.in_latine,typ[1]]    ,
+                    [obj.in_tifinigh,typ[2]],1,many_list[:],oppo_list[:],obj.Definition,racine]
+        else:
+            typ=obj.type_id.types_translations_set.get(lang_id=outlang).translation
+            many_list=[[i.traduction,i.Description] for i in obj.translations_set.all().filter(lang_id=outlang)]
+            return [many_list,None,typ,2]
     elif outlang=="Amazigh":
         try:
             obj=translations.objects.get(lang_id=inlang,traduction=userinput).ama_words.first()
