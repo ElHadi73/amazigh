@@ -63,7 +63,7 @@ def search_result(inlang,outlang,userinput):
             try:
                 racine=[obj.racine_id.in_tifinigh,obj.racine_id.in_latine,obj.racine_id.in_arabic]
             except:
-                racine=[]
+                racine=[None]
             return [[obj.in_arabic,typ[0]]    ,
                     [obj.in_latine,typ[1]]    ,
                     [obj.in_tifinigh,typ[2]],1,many_list[:],oppo_list[:],obj.Definition,racine]

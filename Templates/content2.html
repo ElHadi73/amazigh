@@ -4,9 +4,13 @@
 {% for i in output.4 %}
 <a href="/word/{{ i.1 }}"><h3>{{ i.0 }}/{{ i.1 }}/{{ i.2 }}</h3></a>
 {% endfor %}
-<h2>opposite words:</h2>
-{% for i in output.5 %}
-<a href="/word/{{ i.1 }}"><h3>{{ i.0 }}/{{ i.1 }}/{{ i.2 }}</h3></a>
-{% endfor %}
+{% if output.5.0 != None %}
+	<h2>opposite words:</h2>
+		{% for i in output.5 %}
+			<a href="/word/{{ i.1 }}"><h3>{{ i.0 }}/{{ i.1 }}/{{ i.2 }}</h3></a>
+		{% endfor %}
+{% endif %}
+{% if output.7.1 != None %}
 <h2>racine word:</h2>
 <a href="/word/{{ output.7.1 }}"><h3>{{ output.7.0 }}/{{ output.7.1 }}/{{ output.7.2 }}</h3>
+{% endif %}
